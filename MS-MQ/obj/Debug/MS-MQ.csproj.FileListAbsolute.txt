@@ -1,0 +1,6 @@
+c:\users\stefan\documents\visual studio 2013\Projects\MS-MQ\MS-MQ\bin\Debug\MS-MQ.exe.config
+c:\users\stefan\documents\visual studio 2013\Projects\MS-MQ\MS-MQ\bin\Debug\MS-MQ.exe
+c:\users\stefan\documents\visual studio 2013\Projects\MS-MQ\MS-MQ\bin\Debug\MS-MQ.pdb
+c:\users\stefan\documents\visual studio 2013\Projects\MS-MQ\MS-MQ\obj\Debug\MS-MQ.csprojResolveAssemblyReference.cache
+c:\users\stefan\documents\visual studio 2013\Projects\MS-MQ\MS-MQ\obj\Debug\MS-MQ.exe
+c:\users\stefan\documents\visual studio 2013\Projects\MS-MQ\MS-MQ\obj\Debug\MS-MQ.pdb
