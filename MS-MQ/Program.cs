@@ -24,7 +24,7 @@ namespace MS_MQ {
             Stock s = new Stock() { Ask = 100.0, Change = 1.52, Index = "Dow Jones", LastValue = 98.48, Offer = 99.5, StockName = "AT&T Inc" ,TimeStamp = DateTime.Now};
             var sendingQ = q.First().Value;
             Console.WriteLine("=== SENDING TO: "+sendingQ.Path + " ===");
-            sendingQ.Send(s);
+            sendingQ.Send(s,"Stock message");
             
             Console.ReadLine();
         }

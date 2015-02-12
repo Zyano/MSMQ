@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Messaging;
 using System.Threading;
@@ -9,19 +10,21 @@ namespace MS_MQ {
         public bool Monitoring { get; private set; }
         private Thread _monitoringThread;
         public event EventHandler<QueueHandlerEvent> MessageReceivedEvent;
+        public ISet<String> Ids;
 
         public QueueHandler(MessageQueue queue) {
             Queue = queue;
+            Ids = new HashSet<string>();
         }
 
         public void StartMonitorig() {
             Monitoring = true;
             if(_monitoringThread != null) {
-                if(_monitoringThread.IsAlive) return;
-                _monitoringThread = new Thread(Start) {IsBackground = true};
+                if(_monitoringThread.IsAlive)
+                    return;
+                _monitoringThread = new Thread(Start) { IsBackground = true };
                 _monitoringThread.Start();
-            }
-            else {
+            } else {
                 _monitoringThread = new Thread(Start) { IsBackground = true };
                 _monitoringThread.Start();
             }
@@ -30,16 +33,17 @@ namespace MS_MQ {
         private void Start() {
             while(Monitoring) {
                 try {
-                    Message m = Queue.Receive();
+                    Message m = Queue.Peek();
                     if(m != null) {
-                        QueueHandlerEvent qhe = new QueueHandlerEvent(m,Queue.Path) {MessageId = m.Id};
-                        MessageReceivedEvent.Invoke(this, qhe);
+                        if(!Ids.Contains(m.Id)) {
+                            Ids.Add(m.Id);
+                            QueueHandlerEvent qhe = new QueueHandlerEvent(m, Queue.Path) { MessageId = m.Id };
+                            MessageReceivedEvent.Invoke(this, qhe);
+                        }
                     }
-                }
-                catch(MessageQueueException e) {
+                } catch(MessageQueueException e) {
                     Debug.WriteLine(e.Message + " - " + e.StackTrace);
-                }
-                catch(ArgumentException e) {
+                } catch(ArgumentException e) {
                     Debug.WriteLine(e.Message + " - " + e.StackTrace);
                 }
             }
